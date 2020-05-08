@@ -139,10 +139,9 @@ XCOPY "C:\Program Files\Sensel\SenselLib\x86\LibSenselDecompress.dll" "$(TargetD
     </Link>
     <PostBuildEvent>
       <Command>XCOPY "C:\Program Files\Sensel\SenselLib\x64\LibSensel.dll" "$(TargetDir)" /Y
+
 XCOPY "C:\Program Files\Sensel\SenselLib\x64\LibSenselDecompress.dll" "$(TargetDir)" /Y
-XCOPY "C:\Program Files\Sensel\SenselLib\x64\LibSensel.dll" "$(GOPATH)"\bin /Y
-XCOPY "C:\Program Files\Sensel\SenselLib\x64\LibSenselDecompress.dll" "$(GOPATH)"\bin /Y
-XCOPY "$(TargetDir)"morph.exe "$(GOPATH)"\bin /Y</Command>
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -188,6 +187,11 @@ XCOPY "$(TargetDir)"morph.exe "$(GOPATH)"\bin /Y</Command>
       </DataExecutionPrevention>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
+    <PostBuildEvent>
+      <Command>XCOPY "C:\Program Files\Sensel\SenselLib\x64\LibSensel.dll" "$(TargetDir)" /Y
+
+XCOPY "C:\Program Files\Sensel\SenselLib\x64\LibSenselDecompress.dll" "$(TargetDir)" /Y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\src\morph\main.cpp" />
