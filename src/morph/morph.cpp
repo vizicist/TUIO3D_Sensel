@@ -50,11 +50,7 @@ void handle_ctrl_c(int sig)
 	ctrl_c_requested = true;
 }
 
-AllMorphs::AllMorphs(std::map<unsigned char*,unsigned char*> serialmap) {
-
-	SenselDeviceList devlist;
-
-	senselGetDeviceList(&devlist);
+AllMorphs::AllMorphs(SenselDeviceList devlist, std::map<unsigned char*,unsigned char*> serialmap) {
 
 	// If no explicit serialmap is given, we create one.
 	if (serialmap.size() == 0) {
@@ -79,11 +75,6 @@ AllMorphs::AllMorphs(std::map<unsigned char*,unsigned char*> serialmap) {
 			fprintf(stdout, "Unable to find Morph with serial number '%s'\n", serial);
 		}
 	}
-
-	if (devlist.num_devices == 0) {
-		fprintf(stdout, "Error: no Sensel devices found!\n");
-	}
-
 }
 
 bool
@@ -180,13 +171,7 @@ void OneMorph::released(MorphArea* area, int sid) {
 }
 
 void
-AllMorphs::listdevices() {
-	SenselDeviceList list;
-
-	senselGetDeviceList(&list);
-	if (list.num_devices == 0) {
-		fprintf(stdout, "No Sensel devices found!\n");
-	}
+AllMorphs::listdevices(SenselDeviceList list) {
 
 	for (int i = 0; i < list.num_devices; i++) {
 		SenselDeviceID& dev = list.devices[i];
