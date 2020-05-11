@@ -1,2 +1,5 @@
-copy vs2019\build\morph\x64\Release\morph.exe ..\viztopia\root\bin\morph.exe
-copy vs2019\build\morph\x64\Release\LibSensel*.dll ..\viztopia\root\bin\
+@echo off
+set build=vs2019\build\morph\x64\Release
+set engine=..\viztopia\root\engines\engine1\
+copy /Y %build%\morph.exe %engine%
+copy /Y %build%\LibSensel*.dll %engine%
