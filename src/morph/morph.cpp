@@ -64,15 +64,32 @@ AllMorphs::AllMorphs(SenselDeviceList devlist, std::map<unsigned char*,unsigned 
 	}
 
 	int nfound = 0;
+	unsigned char* autosids = NULL;
+	unsigned char* AUTO = (unsigned char *)"AUTO";
 	for (auto& x : serialmap) {
 		SENSEL_HANDLE h;
 		unsigned char* serial = x.first;
+		if ( strcmp((char*)serial, (char*)AUTO) == 0 ) {
+			autosids = x.second;
+			continue;
+		}
 		if (devlist.num_devices > 0 && senselOpenDeviceBySerialNum(&h, serial) == SENSEL_OK) {
-			_morph.push_back(new OneMorph(h, serial, x.second));
+			OneMorph* newmorph = new OneMorph(h, serial, x.second);
+			_morph.push_back(newmorph);
 			nfound++;
 		}
 		else {
 			fprintf(stdout, "Unable to find Morph with serial number '%s'\n", serial);
+		}
+	}
+	// If a serial value of AUTO is detected, it's replaced with the first device
+	if (autosids != NULL) {
+		SENSEL_HANDLE h;
+		unsigned char* serial = devlist.devices[0].serial_num;
+		if (devlist.num_devices > 0 && senselOpenDeviceBySerialNum(&h, serial) == SENSEL_OK) {
+			fprintf(stdout, "AUTO device is using Morph named %s\n",serial);
+			OneMorph* newmorph = new OneMorph(h, AUTO, autosids);
+			_morph.push_back(newmorph);
 		}
 	}
 }
